@@ -7,7 +7,10 @@ function morse_handle_all_mail( $args = array() )
 		
 		$admin_email = get_option('admin_email');
 
-		if ( $admin_email == $args['to'] ) {
+		$emails = array_map( 'trim', explode( ',', $options['additional_emails'] ) );
+		$emails[] = $admin_email;
+
+		if ( in_array( $args['to'], $emails ) ) {
 			$clean_text = preg_replace( '/<style.*?<\/style>/is', '', $args['message'] );
 			$clean_text = preg_replace( "/\n\s+/", "\n", rtrim( html_entity_decode( strip_tags( $clean_text ) ) ) );
 

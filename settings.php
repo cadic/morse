@@ -45,34 +45,16 @@ function morse_register_settings()
 		'morse-settings'
 	);
 
-/*
 	add_settings_field(
-		'morse_skip_admin_mail',
-		__( 'Disable actual mail if handled with Morse', 'morse' ),
-		'morse_field_skip_admin_mail',
+		'morse_additional_emails',
+		__( 'Additional emails', 'morse' ),
+		'morse_field_additional_emails',
 		'morse',
 		'morse-settings'
 	);
 
-	add_settings_field(
-		'morse_cf7_enable',
-		__( 'Enable Contact Form 7 processing', 'morse' ),
-		'morse_field_cf7_enable',
-		'morse',
-		'morse-settings'
-	);
-
-	add_settings_field(
-		'morse_cf7_skip_mail',
-		__( 'Skip Contact Form 7 Email', 'morse' ),
-		'morse_field_cf7_skip_mail',
-		'morse',
-		'morse-settings'
-	);
-*/
-	
 	/**
-	 * Add more settings hook
+	 * Add more items to Morse Settings page
 	 */
 	do_action( 'morse_register_settings' );
 }
@@ -157,6 +139,18 @@ function morse_field_cf7_skip_mail()
 	);
 }
 
+function morse_field_additional_emails()
+{
+	$options = get_option( 'morse' );
+
+	printf(
+		'<input type="text" id="morse_additional_emails" name="morse[additional_emails]" value="%s" %s />',
+		isset( $options['additional_emails'] ) ? esc_attr( $options['additional_emails']) : '',
+		disabled( $options['handle_admin_mail'], false, false )
+	);
+}
+
+
 function morse_sanitize_settings( $input )
 {
 	$sanitized = array();
@@ -169,8 +163,8 @@ function morse_sanitize_settings( $input )
 		$sanitized['telegram_channelusername'] = $input['telegram_channelusername'];
 	}
 
-	if ( isset( $input['cf7_enable'] ) ) {
-		$sanitized['cf7_enable'] = $input['cf7_enable'];
+	if ( isset( $input['additional_emails'] ) ) {
+		$sanitized['additional_emails'] = $input['additional_emails'];
 	}
 
 	/**

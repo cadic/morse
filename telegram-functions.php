@@ -11,7 +11,7 @@ function morse_telegram_send_message( $message )
 			'chat_id' => $options['telegram_channelusername'],
 			'parse_mode' => 'HTML',
 			'disable_web_page_preview' => true,
-			'text' => htmlentities( $message ),
+			'text' => $message,
 		),
 	) );
 
